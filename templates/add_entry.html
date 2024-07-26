@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="add-entry-container">
+    <h2>Add New Entry</h2>
+    <form id="entryForm">
+        <input type="text" id="title" placeholder="Title" required>
+        <div class="toolbar">
+            <button type="button" class="bold"><i class="fas fa-bold"></i> Bold</button>
+            <button type="button" class="italic"><i class="fas fa-italic"></i> Italic</button>
+            <button type="button" class="underline"><i class="fas fa-underline"></i> Underline</button>
+        </div>
+        <div id="content" contenteditable="true" placeholder="Content" class="content-editable"></div>
+        <button type="submit"><i class="fas fa-plus-circle"></i> Add Entry</button>
+    </form>
+</div>
+{% endblock %}

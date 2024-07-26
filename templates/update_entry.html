@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Freemell Diary - Update Entry</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="book">
+        <div class="cover">
+            <h1>Update Entry</h1>
+        </div>
+        <div class="content">
+            <nav>
+                <a href="{{ url_for('index') }}">Home</a>
+                <a href="{{ url_for('view_entries') }}">View Entries</a>
+            </nav>
+            <form id="updateForm">
+                <input type="text" id="title" placeholder="Title" required>
+                <textarea id="content" placeholder="Content" required></textarea>
+                <button type="submit">Update Entry</button>
+            </form>
+        </div>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const entryId = {{ entry_id }};
+            const updateForm = document.getElementById('updateForm');
+
+            fetch(`/api/get_entry/${entryId}`)
+                .then(response => response.json())
+                .then(entry => {
+                    document.getElementById('title').value = entry.title;
+                    document.getElementById('content').value = entry.content;
+                });
+
+            updateForm.addEventListener('submit', function(event) {
+                event.preventDefault();
+                const title = document.getElementById('title').value;
+                const content = document.getElementById('content').value;
+
+                fetch(`/api/update_entry/${entryId}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ title, content })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    alert(data.status);
+                    window.location.href = "{{ url_for('view_entries') }}";
+                });
+            });
+        });
+    </script>
+</body>
+</html>
